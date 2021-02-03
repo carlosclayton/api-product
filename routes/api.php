@@ -14,6 +14,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+$api = app('Dingo\Api\Routing\Router');
+$api->version('v1', function ($api) {
+    $api->group([
+        'as' => 'api',
+        'middleware' => ['api.throttle'],
+        'limit' => 50,
+        'expires' => 1
+    ], function ($api) {
+
+        $api->group([
+            'prefix' => 'users',
+            'as' => 'users.',
+        ], function ($api) {
+            $api->get('/user', function (Request $request) {
+                return response([
+                    'data' => $request->user()
+                ]);
+            })->name('.user');
+        });
+
+        $api->group([
+            'namespace' => 'App\Http\Controllers',
+            'prefix' => 'products',
+            'as' => 'products.'
+        ], function ($api) {
+            $api->get('/', 'ProductsController@index')->name('.index');
+            $api->post('/', 'ProductsController@store')->name('.store');
+            $api->put('/{product}', 'ProductsController@update')->name('.update');
+            $api->get('/{product}', 'ProductsController@show')->name('.show');
+            $api->delete('/{product}', 'ProductsController@destroy')->name('.destroy');
+        });
+    });
 });
+

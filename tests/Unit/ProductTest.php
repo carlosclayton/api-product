@@ -23,7 +23,7 @@ class ProductTest extends TestCase
     public function testFillable()
     {
         $category = new Product();
-        $array = ['name', 'description', 'is_active'];
+        $array = ['name', 'description', 'type'];
         $this->assertEquals($array, $category->getFillable());
     }
 

@@ -17,17 +17,188 @@ use App\Validators\ProductValidator;
  *
  * @package namespace App\Http\Controllers;
  */
-class ProductsController extends Controller
+class ProductsController extends BasicCrudController
 {
+
+
+    /**
+     * @OA\Get(
+     *     tags={"Products"},
+     *     path="/api/products",
+     *     summary="List of products",
+     *     description="Return a list of products",
+     *     @OA\Response(response="200", description="An json"),
+     *      security={
+     *           {"apiKey": {}}
+     *       }
+     * )
+     */
+
+    /**
+     * @OA\Post(
+     *      tags={"Products"},
+     *      path="/api/products",
+     *      summary="Store a product",
+     *      description="Return message",
+     *      @OA\Parameter(
+     *          name="name",
+     *          description="Name field",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="type",
+     *          description="Type field",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="description",
+     *          description="Description",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Response(response="200", description="Store product"),
+     *      security={
+     *           {"apiKey": {}}
+     *      }
+     * )
+     */
+
+    /**
+     * @OA\Get(
+     *     tags={"Products"},
+     *     path="/api/products/{id}",
+     *     operationId="getProductById",
+     *     @OA\Parameter(
+     *          name ="id",
+     *          in = "path",
+     *          description = "ID of prooduct to return",
+     *          required = true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
+     *     summary="Show product",
+     *     description="Return a product",
+     *     @OA\Response(response="200", description="A json"),
+     *     security={
+     *           {"apiKey": {}}
+     *     }
+     * )
+     */
+
+
+    /**
+     * @OA\Put(
+     *      tags={"Products"},
+     *      path="/api/products/{id}",
+     *      summary="Update a product",
+     *      description="Update a product",
+     *      operationId="getProductById",
+     *      @OA\Parameter(
+     *          name ="id",
+     *          in = "path",
+     *          description = "ID of product to return",
+     *          required = true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="name",
+     *          description="Name field",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="description",
+     *          description="Description",
+     *          required=false,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Response(response="200", description="A json"),
+     *      security={
+     *           {"apiKey": {}}
+     *      }
+     * )
+     */
+
+    /**
+     * @OA\Delete(
+     *     tags={"Products"},
+     *     path="/api/products/{id}",
+     *     operationId="getProductById",
+     *     @OA\Parameter(
+     *          name ="id",
+     *          in = "path",
+     *          description = "ID of product to return",
+     *          required = true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
+     *     summary="Delete a product",
+     *     description="Delete a product",
+     *     @OA\Response(response="200", description="An json"),
+     *     security={
+     *           {"apiKey": {}}
+     *     }
+     * )
+     */
+
+
     /**
      * @var ProductRepository
      */
     protected $repository;
 
+
     /**
-     * @var ProductValidator
+     * @return ProductRepository
      */
-    protected $validator;
+    protected function model()
+    {
+        return $this->repository;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function rulesStore()
+    {
+        return [
+            'name' => 'required|max:255',
+            'description' => 'nullable'
+        ];
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function rulesUpdate()
+    {
+        return [
+            'name' => 'required|max:255',
+            'description' => 'nullable'
+        ];
+    }
+
 
     /**
      * ProductsController constructor.
@@ -35,170 +206,9 @@ class ProductsController extends Controller
      * @param ProductRepository $repository
      * @param ProductValidator $validator
      */
-    public function __construct(ProductRepository $repository, ProductValidator $validator)
+    public function __construct(ProductRepository $repository)
     {
         $this->repository = $repository;
-        $this->validator  = $validator;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $products = $this->repository->all();
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $products,
-            ]);
-        }
-
-        return view('products.index', compact('products'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  ProductCreateRequest $request
-     *
-     * @return \Illuminate\Http\Response
-     *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
-     */
-    public function store(ProductCreateRequest $request)
-    {
-        try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-
-            $product = $this->repository->create($request->all());
-
-            $response = [
-                'message' => 'Product created.',
-                'data'    => $product->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $product = $this->repository->find($id);
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $product,
-            ]);
-        }
-
-        return view('products.show', compact('product'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $product = $this->repository->find($id);
-
-        return view('products.edit', compact('product'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  ProductUpdateRequest $request
-     * @param  string            $id
-     *
-     * @return Response
-     *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
-     */
-    public function update(ProductUpdateRequest $request, $id)
-    {
-        try {
-
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            $product = $this->repository->update($request->all(), $id);
-
-            $response = [
-                'message' => 'Product updated.',
-                'data'    => $product->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-
-            if ($request->wantsJson()) {
-
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $deleted = $this->repository->delete($id);
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'message' => 'Product deleted.',
-                'deleted' => $deleted,
-            ]);
-        }
-
-        return redirect()->back()->with('message', 'Product deleted.');
-    }
 }

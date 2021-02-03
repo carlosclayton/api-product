@@ -19,7 +19,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->enum('type', ['BELEZA', 'LIMPEZA'])->default('BELEZA');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
 		});

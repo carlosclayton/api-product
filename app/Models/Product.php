@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
@@ -32,13 +33,15 @@ use Prettus\Repository\Traits\TransformableTrait;
  */
 class Product extends Model implements Transformable
 {
-    use HasFactory, TransformableTrait;
+    use HasFactory, TransformableTrait, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = ['name', 'description', 'type'];
+
+    protected $dates = ['deleted_at'];
 
 }
