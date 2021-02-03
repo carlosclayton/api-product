@@ -14,7 +14,7 @@
         "doctrine/dbal": "~2.3",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "v2.0.2",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^6.0.0",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "league/fractal": "^0.19.2",
@@ -22,14 +22,20 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.9",
+        "behat/behat": "^3.8",
+        "behat/mink": "^1.8",
+        "behat/mink-selenium2-driver": "^1.4",
         "beyondcode/laravel-dump-server": "^1.7",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
+        "friends-of-behat/mink-extension": "^2.5",
+        "laracasts/behat-laravel-extension": "^1.1",
         "laravel/dusk": "^6.11",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.3.3"
+        "phpunit/phpunit": "^9.3.3",
+        "imbo/behat-api-extension": "^v2.0.0"
     },
     "config": {
         "optimize-autoloader": true,

@@ -1,0 +1,26 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+    web_features:
+      paths: [ /features/api ]
+
+  extensions:
+    Imbo\BehatApiExtension:
+      apiClient:
+        base_uri: 'http://localhost:8000'
+        timeout: '5.0'
+        verify: false
+    Behat\MinkExtension:
+      base_url: 'http://localhost:8000'
+      browser_name: 'firefox'
+      sessions:
+        default:
+          selenium2:
+            wd_host: 'http://localhost:4444/wd/hub'
+            capabilities:
+              platform: 'LINUX'
+              version: '0.0.1'
+              browser: 'firefox'
+              browserName: 'firefox'

@@ -20,26 +20,27 @@
 
 > L5 Swagger: https://github.com/DarkaOnLine/L5-Swagger
 
+> Behat-Laravel-Extension: https://github.com/laracasts/Behat-Laravel-Extension
 
-### 1.  	Configuring environment
+### 2.  	Configuring environment
 
-##### 1.1.	Cloning API product by GITHUB
+##### 2.1.	Cloning API product by GITHUB
 
 Run the command bellow on Bash:
 ```
 $  git clone https://github.com/carlosclayton/api-product.git
 ```  
 
-##### 1.2.	Endpoints
+##### 2.2.	Endpoints
 
 Run the command bellow on Bash:
 ```
 $  php artisan api:routes
 ```  
 
-### 2.	Test
+### 2.3	Test
 
-##### 2.1.	Seeders
+##### 2.4.	Seeders
 
 Run the command bellow to generate product seeders
 
@@ -47,7 +48,7 @@ Run the command bellow to generate product seeders
 $  php artisan db:seed --class=ProductSeeder
 ```
 
-##### 2.2.	Unit test
+##### 2.5.	Unit test
 
 Run the command bellow
 
@@ -56,7 +57,7 @@ $  vendor/bin/phpunit --filter ProductTest --testdox
 ```
 
 
-##### 2.2.	Integration test
+##### 2.6.	Integration test
 
 Run the command bellow
 
@@ -65,21 +66,19 @@ $  vendor/bin/phpunit --filter ProductDbTest --testdox
 $  vendor/bin/phpunit --filter ProductControllerTest --testdox
 ```
 
-##### 2.3.	API documentation
+##### 2.7.	API documentation
 
+> Visit: http://localhost:8000/api/documentation
 
+##### 2.8.	Laravel Dusk 
 
-##### 2.2.	Laravel Dusk 
-
-
-##### 2.5.	Teste de comportamento
-
-Rara criar, rode o comando abaixo:
 ```
-php artisan dusk:make LoginControllerTest 
+php artisan dusk 
 ``` 
 
-Rara executar, rode o comando abaixo:
+
+##### 2.8.	Behat
+
 ```
-php artisan dusk  --filter LoginControllerTest
+vendor/bin/behat 
 ``` 
