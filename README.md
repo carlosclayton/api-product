@@ -45,7 +45,7 @@ $  php artisan api:routes
 Run the command bellow to generate product seeders
 
 ```
-$  php artisan db:seed --class=ProductSeeder
+$  php artisan db:seed --class=CategorySeeder
 ```
 
 ##### 2.5.	Unit test
@@ -53,6 +53,7 @@ $  php artisan db:seed --class=ProductSeeder
 Run the command bellow
 
 ```
+$  vendor/bin/phpunit --filter CategoryTest --testdox
 $  vendor/bin/phpunit --filter ProductTest --testdox
 ```
 
@@ -62,6 +63,8 @@ $  vendor/bin/phpunit --filter ProductTest --testdox
 Run the command bellow
 
 ```
+$  vendor/bin/phpunit --filter CategoryDbTest --testdox
+$  vendor/bin/phpunit --filter CategoryControllerTest --testdox
 $  vendor/bin/phpunit --filter ProductDbTest --testdox
 $  vendor/bin/phpunit --filter ProductControllerTest --testdox
 ```
