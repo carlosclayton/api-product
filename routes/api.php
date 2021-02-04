@@ -46,6 +46,18 @@ $api->version('v1', function ($api) {
             $api->get('/{product}', 'ProductsController@show')->name('.show');
             $api->delete('/{product}', 'ProductsController@destroy')->name('.destroy');
         });
+
+        $api->group([
+            'namespace' => 'App\Http\Controllers',
+            'prefix' => 'categories',
+            'as' => 'categories.'
+        ], function ($api) {
+            $api->get('/', 'CategoriesController@index')->name('.index');
+            $api->post('/', 'CategoriesController@store')->name('.store');
+            $api->put('/{category}', 'CategoriesController@update')->name('.update');
+            $api->get('/{category}', 'CategoriesController@show')->name('.show');
+            $api->delete('/{category}', 'CategoriesController@destroy')->name('.destroy');
+        });
     });
 });
 

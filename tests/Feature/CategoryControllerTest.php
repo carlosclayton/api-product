@@ -2,14 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Product;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Category;
 use Tests\TestCase;
 
-class ProductControllerTest extends TestCase
+class CategoryControllerTest extends TestCase
 {
-    private $product;
+    private $category;
 
     protected function setUp(): void
     {
@@ -19,7 +17,7 @@ class ProductControllerTest extends TestCase
             'description' => $this->faker->sentence
         ];
 
-        $this->product = Product::create($attr);
+        $this->category = Category::create($attr);
 
     }
 
@@ -31,11 +29,11 @@ class ProductControllerTest extends TestCase
     public function testIndex()
     {
 
-        $response = $this->getJson('/api/products');
+        $response = $this->getJson('/api/categories');
         $response
             ->assertStatus(200)
-            ->assertSeeText($this->product->name)
-            ->assertSeeText($this->product->description);
+            ->assertSeeText($this->category->name)
+            ->assertSeeText($this->category->description);
     }
 
     public function testStore()
@@ -46,9 +44,9 @@ class ProductControllerTest extends TestCase
         ];
 
 
-        $response = $this->postJson( '/api/products', $attr);
+        $response = $this->postJson( '/api/categories', $attr);
         $response
-            ->assertStatus(200)
+            ->assertStatus(201)
             ->assertSeeText($attr['name'])
             ->assertSeeText($attr['description']);
 
@@ -56,7 +54,7 @@ class ProductControllerTest extends TestCase
     public function testStoreNameNotNull()
     {
 
-        $response = $this->postJson( '/api/products',[
+        $response = $this->postJson( '/api/categories',[
             'name' => ''
         ]);
         $response
@@ -69,7 +67,7 @@ class ProductControllerTest extends TestCase
     public function testStoreValidationNameMax()
     {
 
-        $response = $this->postJson( '/api/products',[
+        $response = $this->postJson( '/api/categories',[
             'name' => $this->faker->sentence(258)
         ]);
         $response
@@ -83,36 +81,33 @@ class ProductControllerTest extends TestCase
     public function testShow()
     {
 
-        $response = $this->getJson('/api/products/' . $this->product->id );
+        $response = $this->getJson('/api/categories/' . $this->category->id );
         $response
             ->assertStatus(200)
-            ->assertSeeText($this->product->name);
+            ->assertSeeText($this->category->name)
+            ->assertSeeText($this->category->description);
 
     }
 
     public function testUpdate()
     {
-        $attr = [
-            'name' => $this->faker->name,
-            'description' => $this->faker->sentence
-        ];
+        $name = $this->faker->name;
 
-        $gender = Product::create($attr);
-        $response = $this->putJson('/api/products/'. $gender->id, [
-            'name' => $attr['name']
+        $response = $this->putJson('/api/categories/'. $this->category->id, [
+            'name' => $name
         ]);
 
         $response
             ->assertStatus(200)
-            ->assertSeeText($attr['name'])
-            ->assertSeeText($attr['description']);
+            ->assertSeeText($name);
+
 
     }
 
     public function testUpdateNameNotNull()
     {
 
-        $response = $this->putJson('/api/products/'. $this->product->id, [
+        $response = $this->putJson('/api/categories/'. $this->category->id, [
             'name' => ''
         ]);
 
@@ -125,7 +120,7 @@ class ProductControllerTest extends TestCase
     public function testUpdateDescriptionNull()
     {
 
-        $response = $this->putJson('/api/products/'. $this->product->id, [
+        $response = $this->putJson('/api/categories/'. $this->category->id, [
             'name' => $this->faker->name,
             'description' => null
         ]);
@@ -138,7 +133,7 @@ class ProductControllerTest extends TestCase
     public function testDestroy()
     {
 
-        $response = $this->deleteJson('/api/products/' . $this->product->id);
+        $response = $this->deleteJson('/api/categories/' . $this->category->id);
         $response
             ->assertStatus(204)
             ->assertNoContent();

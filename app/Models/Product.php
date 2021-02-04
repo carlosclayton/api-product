@@ -30,6 +30,10 @@ use Prettus\Repository\Traits\TransformableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereType($value)
+ * @method static \Illuminate\Database\Query\Builder|Product onlyTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Product withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Product withoutTrashed()
+ * @property-read \App\Models\Category $category
  */
 class Product extends Model implements Transformable
 {
@@ -40,8 +44,16 @@ class Product extends Model implements Transformable
      *
      * @var array
      */
-    protected $fillable = ['name', 'description', 'type'];
+    protected $fillable = ['name', 'description',  'category_id'];
 
     protected $dates = ['deleted_at'];
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
