@@ -1,5 +1,5 @@
 # Laravel 8 API Product
-![Screenshot](./public/api-product.png)
+![Screenshot](api-product.png)
 ### 1.	Third party package
 
 > Laravel IDE Helper Generator: https://github.com/barryvdh/laravel-ide-helper
