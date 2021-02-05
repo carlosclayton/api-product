@@ -50,6 +50,15 @@ class ProductsController extends BasicCrudController
      *          )
      *      ),
      *      @OA\Parameter(
+     *          name ="category_id",
+     *          in = "path",
+     *          description = "ID of category to return",
+     *          required = true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
      *          name="type",
      *          description="Type field",
      *          required=true,
@@ -121,6 +130,15 @@ class ProductsController extends BasicCrudController
      *          in="query",
      *          @OA\Schema(
      *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name ="category_id",
+     *          in = "path",
+     *          description = "ID of category to return",
+     *          required = true,
+     *          @OA\Schema(
+     *              type="integer"
      *          )
      *      ),
      *      @OA\Parameter(

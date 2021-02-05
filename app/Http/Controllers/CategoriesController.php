@@ -28,7 +28,7 @@ class CategoriesController extends BasicCrudController
 
     /**
      * @OA\Post(
-     *      tags={"Categorys"},
+     *      tags={"Categories"},
      *      path="/api/categories",
      *      summary="Store a category",
      *      description="Return message",
